@@ -1,0 +1,14 @@
+{
+  "version": "pref-1.0",
+  "dimensions": [
+    {"id":"direction","name":"技术方向","required":true,"options":["后端开发","前端开发","全栈开发","数据与算法","测试与质量","基础设施"]},
+    {"id":"autonomy","name":"自主性","required":true,"options":["明确任务与指导","在协作中自主推进","高度自主探索"]},
+    {"id":"learning","name":"学习与成长","required":true,"options":["深耕现有技术","适度探索新技术","持续学习与探索"]},
+    {"id":"collaboration","name":"协作密度","required":false,"options":["独立工作为主","适度团队协作","频繁跨团队协作"]},
+    {"id":"feedback","name":"反馈频率","required":false,"options":["阶段性反馈","定期沟通","及时持续反馈"]},
+    {"id":"pace","name":"工作节奏","required":false,"options":["稳定有序","迭代与规划并行","快速迭代"]},
+    {"id":"growth","name":"成长路径","required":false,"options":["专业积累","能力拓展","挑战与快速成长"]},
+    {"id":"challenge","name":"技术挑战","required":false,"options":["成熟方案落地","复杂问题解决","探索未知方案"]}
+  ],
+  "related_directions": [["后端开发","全栈开发"],["前端开发","全栈开发"],["后端开发","基础设施"],["数据与算法","后端开发"]]
+}
