@@ -1,141 +1,182 @@
-# 同频 · 人才发掘 Agent 系统
+<div align="center">
 
-完整开发说明见 [同频项目开发文档](docs/同频项目开发文档.md)，涵盖业务、技术架构、数据授权、AI 实现、问题修复与运行维护；也可打开 [HTML 阅读版](docs/同频项目开发文档.html) 查看已渲染的架构图、流程图和时序图。
+# 同频 · Tongpin
 
-基于 PRD、SRS 与 UI 文档实现的双边偏好匹配原型。默认前端为独立的 Vue 3 + TypeScript + Vite 页面，后端为 Python 3.13 + FastAPI + Pydantic，业务数据持久化到 SQLite 的业务表。技术用途与本次验证见 [技术与重构说明](docs/前端重构与技术说明.md)。已接入验证码注册、密码／验证码登录、设置／找回密码与真实账号数据隔离，配置见 [登录与账号隔离](docs/登录与账号隔离.md)。
+### 让经历被看见，让选择有回响。
 
-## 本地启动（Windows）
+基于经历依据的求职与招聘 AI 协作平台。
+把个人经历、岗位需求与双方期待连在一起，从一份资料走向一次有依据的相遇。
 
-双击项目根目录的 **`一键启动.bat`**。需安装 Python 3.13，以及 Node.js 22.13 或更高的受支持 LTS 版本（原 PDF 预览依赖）。脚本优先使用项目虚拟环境；缺少依赖时安装锁定的 Python 与 npm 依赖，前后端就绪后自动打开浏览器。首次安装需要联网。
+[![License: MIT](https://img.shields.io/badge/License-MIT-7455B3.svg)](LICENSE)
+[![Vue 3](https://img.shields.io/badge/Vue-3-42b883.svg)](frontend/package.json)
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](requirements.txt)
+[![Python 3.13](https://img.shields.io/badge/Python-3.13-3776ab.svg)](requirements-runtime-lock.txt)
 
-保留启动窗口，按 **Ctrl+C** 同时停止本次启动的前后端。默认端口被占用时自动寻找空闲端口，前端自动连接本次后端，浏览器打开实际前端地址；运行地址以窗口输出为准。错误日志在 `data/runtime`。
+[快速开始](#快速开始) · [界面预览](#界面预览) · [部署说明](docs/deployment.md) · [参与贡献](CONTRIBUTING.md)
 
-也可在项目目录运行：
+</div>
 
-```powershell
+![同频公开首页：从经历片段到个人资料卡](docs/assets/screenshots/01-home.png)
+
+> 截图中的人物、企业、账号和沟通材料均来自合成示例及隔离测试环境。AI 工作区截图使用脚本化模型响应展示交互流程，不代表真实模型效果或招聘结论。本仓库不提供公共测试账号。
+
+## 同频能做什么
+
+同频围绕具体经历帮助双方理解彼此：求职者整理和改善表达，企业查看已授权的材料并准备进一步沟通。AI 建议保留原文依据，由人决定是否采纳、是否推进。
+
+| 面向谁 | 已实现的功能 |
+| --- | --- |
+| 求职者 | 简历库与原件预览、AI 流式对话、经历定位、修改前后对照、确认后保存新版本、岗位对照与五档契合度排序 |
+| 招聘者 | 岗位画像与需求澄清、授权投递阅读、个人资料卡与技术经历结构、技术与业务关联、AI 面试追问与可编辑提纲 |
+| 双方 | 主动投递、沟通邀请与接受／婉拒、独立消息中心、文件附件、岗位与资料快照、统一的期待公开设置 |
+| 平台工作人员 | 企业资质审核、账号与岗位监管、操作留痕、标准配置、质量审阅与备份工具 |
+
+岗位契合度依据已有证据判断；缺少描述时保留提示，不强制补充。招聘端能力报告需人工确认后才能参与候选人比较，系统不自动晋级、淘汰或作录用决定。
+
+## 界面预览
+
+### 求职 AI：从一段经历到可确认的修改
+
+材料、对话与结果分区展示。Agent 可以定位原文、对照岗位并准备草稿；用户逐项查看文字变化、选择采纳的段落，再确认保存，原件保留。
+
+![求职 AI 工作区：材料、对话和修改前后对照](docs/assets/screenshots/02-candidate-ai.png)
+
+### 简历库：把经历放在眼前
+
+以卡片或列表管理简历，保留导入、查看依据、下载、删除和进入 AI 协作的入口。支持 PDF、DOC、DOCX、TXT、JSON；PDF 原件可预览，Word 可下载原件并提取文字供分析。
+
+![简历库：文件预览卡与操作入口](docs/assets/screenshots/03-resumes.png)
+
+### 招聘 AI：结论旁边就是依据
+
+围绕当前候选人的授权投递整理经历，讨论技术与企业业务的关联，生成可核对的面试追问。对话、原文依据和提纲始终围绕同一份投递。
+
+![招聘 AI 工作区：候选人材料、对话与原文依据](docs/assets/screenshots/04-recruiter-ai.png)
+
+### 双向沟通：带着岗位和双方期待继续了解
+
+求职者主动投递，企业发出邀请，由求职者决定是否接受。独立消息中心关联岗位、已授权简历和双方期待，支持历史消息与未读提醒。
+
+![消息中心：会话列表、沟通区域和授权资料栏](docs/assets/screenshots/05-messages.png)
+
+## 快速开始
+
+### 环境要求
+
+- Python **3.13**、Node.js **22.13 或更高的受支持 LTS 版本**、Git。
+- 首次安装需要联网。默认使用 SQLite，无需另装 MySQL 或 Redis。
+- 旧 DOC 文件的解析需要 `antiword`；Ubuntu 可安装 `sudo apt-get install antiword`，项目 Docker 镜像已包含。
+
+### 下载与启动
+
+```bash
+git clone https://github.com/lionOvO/tongpin.git
+cd tongpin
 python start.py --install
 ```
 
-后续启动直接运行 `python start.py`。脚本启动两个服务，优先使用以下地址；端口被占用时自动调整：
+Windows 也可双击根目录的 **`一键启动.bat`**；Linux / macOS 可使用 `python3 start.py --install`。启动脚本创建虚拟环境、复制缺失的 `.env`、安装锁定依赖，并启动 API 与 Vue 前端。后续运行 `python start.py` 即可。
 
-- 前端：http://127.0.0.1:8501
-- 后端接口文档：http://127.0.0.1:8000/docs
+默认前端为 `http://127.0.0.1:8501`，API 文档为 `http://127.0.0.1:8000/docs`。端口占用时自动选择空闲端口，**以终端实际输出为准**。按 Ctrl+C 停止本次启动的服务；运行日志位于 `data/runtime/`。
 
-启动终端按 Ctrl+C 会关闭本次启动的两个服务。日志在 `data/runtime`。
+如需固定端口：
 
-自定义固定端口并自动打开浏览器（指定端口被占用时明确报错）：
-
-```powershell
-.\一键启动.bat --api-port 8003 --web-port 8503
+```bash
+python start.py --api-port 8003 --web-port 8503
 ```
 
-也可手工在两个终端运行：
+### 模型、登录和企业权限
 
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-cd frontend
-npm ci
-$env:VITE_API_PROXY_TARGET="http://127.0.0.1:8000"
-npm run dev -- --port 8501
-```
+默认 `.env.example` 使用 `LLM_MODE=demo`：本地规则演示无需 AI 密钥，可先查看公开首页。**演示模式不会跳过登录、短信验证或企业认证。**
 
-前端通过同源 `/api` 代理连接本次启动的后端，不把 AI 密钥打包进浏览器。旧 Streamlit 页面作为源码参考归档，其演示身份客户端不支持新认证；默认启动和 Docker 部署均使用 Vue，旧启动参数会明确提示不再支持。更新前端依赖前应先关闭已运行的 Vue 启动窗口，避免 Windows 锁定原生构建模块。
+要使用完整账号流程，在本地 `.env` 配置阿里云号码认证 PNVS 的密钥、签名与模板，完成手机号注册并设置密码。招聘空间需要企业资料审核；管理员由维护者显式授权，没有默认管理账号或密码。配置步骤见 [登录与账号隔离](docs/登录与账号隔离.md)。
 
-## 已提供的流程
-
-- 认证企业公开岗位、求职者明确授权后投递、企业发出沟通邀请、求职者接受或婉拒、站内沟通与共同进展。入口和资料授权规则见 [投递与双向选择](docs/投递与双向选择.md)。
-- 招聘端个人资料卡与经历结构视图：按授权投递整理技术经历、业务关联及面试追问，保留原文依据，不自动评分或淘汰。入口及验证方式见 [招聘个人资料卡](docs/招聘个人资料卡.md)。
-- 双方消息中心：按投递分开会话，支持邀请回应、文字聊天、未读提醒、历史搜索及可收起的授权资料栏。入口及同步规则见 [消息中心](docs/消息中心.md)。
-- 独立求职者 AI 工作区：简历检查、岗位语义对照、自由对话与追问、本人补充确认、草稿前后对照、确认后保存新版本。详见 [AI 工作区](docs/AI工作区.md)。
-- 独立招聘 AI 工作区：材料 Agent 基于当前授权投递读取并定位经历、讨论技术与业务关联、准备面试追问，支持流式回答、停止和人工选择保存提纲，保留各投递对话历史，默认 DeepSeek 官方模型。详见 [招聘 AI 工作区](docs/招聘AI工作区.md)及[招聘 Agent 第三阶段](docs/招聘Agent第三阶段.md)。
-
-- 企业偏好与求职者偏好、双方原文对照、无法判断态、历史快照与过期标记。
-- 岗位创建、结构化画像编辑与版本确认、需求澄清与三类 JD 诊断。
-- PDF/DOC/DOCX/JSON/TXT 批量导入、解析失败隔离、初筛标记、逐维能力报告与技能行为证据。
-- 人工确认、关系修正、打回、三次连续打回暂停、校准记忆确认与删除。
-- 仅确认报告参与候选人比较、并列排序、默认无联系方式的 CSV 导出。
-- 求职者本人岗位对照、粘贴 JD、自选岗位集合排序、量规差距说明。
-- 聚合岗位基准及样本不足拦截、审计、成本估算、隔离检查、锚定样本漂移检查。
-- 版本化配置、标准包导入导出、清理合成数据、数据库备份与引用检查。
-
-新注册账号从独立空白空间开始，不自动继承旧演示材料。旧数据保留，可通过本机工具显式迁移；管理员可为自己的账号装载私有合成示例。能力报告仍须人工确认后才会参与比较。
-
-## AI 与演示模式
-
-默认 `LLM_MODE=demo`，使用可复现的本地文本规则，无需密钥。界面明确显示「本地演示规则」。这是联调与演示模式，不宣称模型准确率。
-
-真实模型调用在 `.env` 配置：
+接入真实 AI 时，在 `.env` 配置：
 
 ```dotenv
 LLM_MODE=deepseek
-DEEPSEEK_API_KEY=你的密钥
+DEEPSEEK_API_KEY=替换为自己的密钥
 DEEPSEEK_BASE_URL=https://api.deepseek.com
 DEEPSEEK_MODEL=deepseek-flash
 ```
 
-求职者 AI 工作区支持按任务选择 DeepSeek 和中转 GPT，历史结果保留生成模型。配置与扩展方式见 [模型选择与切换](docs/模型选择与切换.md)。
+重启后生效；模型名称需与供应商账户可用模型一致。招聘分析默认使用 DeepSeek 官方接口；其他兼容模型配置见 [模型选择与切换](docs/模型选择与切换.md)。密钥只放服务端，不能放入 `VITE_*` 或提交到 Git。
 
-重启后，JD 与能力证据整理会调用模型；偏好匹配、成绩换算、技能汇总与排序仍由确定性代码执行。每次模型调用记录输入哈希、prompt 版本、时长、token 和估算费用。结构化输出失败重试一次，失败不保存半成品报告。费用单价在 `.env` 配置，示例值不是当前官方报价。
+仅做代码联调、无需真实短信和付费模型时，可使用 [贡献指南中的隔离测试环境](CONTRIBUTING.md#隔离交互预览)，不要把测试服务部署到公网。
 
-## 本地向量检索（可选）
+## 技术架构
 
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-vector.txt
+```mermaid
+flowchart LR
+    U[求职者 / 招聘者 / 工作人员] --> V[Vue 3 · TypeScript]
+    V -->|同源 /api| F[FastAPI · 身份与授权检查]
+    F --> B[业务服务 · 投递 / 沟通 / 版本]
+    F --> A[LangGraph 材料 Agent]
+    A -->|读取授权材料 / 定位依据| B
+    A --> M[DeepSeek / 兼容模型接口]
+    B --> D[(SQLite · 私有原件)]
+    F --> S[短信验证服务]
 ```
 
-预下载 `BAAI/bge-m3` 和 `BAAI/bge-reranker-base`，设置 `VECTOR_ENABLED=true`，重启。使用 SentenceTransformer 做向量编码，CrossEncoder 做重排；索引 metadata 隔离 owner、env 和来源。大模型权重需额外磁盘与内存。默认主流程无需这些依赖。
+- **前端**：Vue 3、TypeScript、Vite、Lucide 图标、PDF.js 原件预览。
+- **后端**：FastAPI、Pydantic、LangGraph、SQLite，支持流式对话与后台分析任务。
+- **部署**：Docker Compose、Nginx 同源代理、持久化数据卷、健康检查和升级备份。
+- **可选检索**：本地向量编码与重排，默认关闭；启用方式见 [开发文档](docs/同频项目开发文档.md)。
 
-## 验证
+```text
+app/                 API、认证、Agent、业务规则与存储
+frontend/            Vue 页面、样式、接口客户端与前端测试
+config/              默认判据、偏好维度与版本化配置
+tests/               单元测试、业务测试与隔离浏览器预览
+scripts/             账号维护、评测与辅助工具
+docs/                功能说明、截图、部署和验证记录
+docker/              镜像构建与代理模板
+web/                 归档的旧 Streamlit 页面，非当前运行前端
+data/                本地运行数据与私有材料（不提交）
+```
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest -q --basetemp=./artifacts/pytest-local
+## 开发与验证
+
+后端（先启动或创建项目虚拟环境）：
+
+```bash
+# Windows；Linux / macOS 将 .venv/Scripts/python.exe 换成 .venv/bin/python
+.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
+.venv/Scripts/python.exe -m pytest -q --basetemp=./artifacts/pytest-local
+```
+
+前端：
+
+```bash
 cd frontend
-npm run test
+npm ci
+npm test
 npm run build
 ```
 
-Vue 重构及本次登录调整的验证记录分别见技术说明与登录说明。旧 scripts/browser_check.py 及 tests/browser_alignment_check.py 使用已归档的演示身份，不用于验证默认 Vue 页面或新登录接口。
+业务与界面测试用于验证流程、权限和呈现，不代表真实模型准确率。模型效果需独立人工标注集评估，见 [评测说明](docs/evaluation.md)。
 
-独立人工标注集可用 `scripts/evaluate.py` 计算一致率、证据覆盖、重复一致性和 baseline 差值；格式和实测限制见 [评测说明](docs/evaluation.md)。此前量规对齐验收见 [验证记录](docs/verification.md)，本次重构见 [技术与验证说明](docs/前端重构与技术说明.md)。
+## 部署与数据边界
 
-## Docker / 腾讯云
+服务器使用 `docker-compose.server.yml` 与 `deploy-server.sh`，具体步骤见 **[部署指南](docs/deployment.md)**。API 不直接暴露公网，前端代理通过同源 `/api` 访问；数据卷与 `.env` 独立保留。
 
-正式服务器部署使用独立的 `docker-compose.server.yml` 和 `sh deploy-server.sh`，由宿主机代理连接内部 web；当前按用户要求提供 HTTP :18082；实际服务、环境配置、备份与回滚见 [服务器部署](docs/服务器部署.md)。下方为原有本机 Docker 运行方式，不作为公网生产登录入口。
+公开仓库不包含实际 `.env`、API 密钥、数据库、上传原件或个人账号清单。生产环境应使用受信任的 HTTPS 证书并保留 Secure Cookie。模型分析会向所配置的服务商发送当前任务需要的材料；上线前应明确资料处理范围。
 
-```bash
-cp .env.example .env
-chmod 600 .env
-docker compose up --build -d --wait
-```
+当前仍在持续迭代：SQLite 与进程内后台任务适合当前部署方案，服务器 API 固定单 worker；扫描 PDF 的图片文字需要额外 OCR，Word 提取文本不等同于还原排版；模型响应可能失败或超时，已有材料与已保存版本应保留。
 
-默认只映射回环地址，腾讯云演示可用 `ssh -L 8501:127.0.0.1:8501 用户@服务器` 后访问本机 8501。`deploy.sh` 在升级前暂停写入并备份数据卷。业务与可编辑配置均在持久化卷。可选向量版使用 `WITH_VECTORS=true` 构建并预下载模型。
+## 文档与参与
 
-业务接口已要求真实手机号会话，X-Demo-Actor 不再参与授权；APP_ENV=prod 默认使用 HTTPS Secure Cookie；当前 HTTP 部署通过显式 SESSION_COOKIE_SECURE=false 使用独立的 HTTP 会话 Cookie，详见服务器部署文档。已按用户要求从餐小助复制完整短信配置到根目录 .env，沿用默认方案。首页右上角提供账号登录及注册入口：首次需验证码注册并设置密码，之后可密码登录；之前快捷注册的账号从「设置／找回密码」补设密码，保留原账号材料。实际短信送达需使用本人手机验证；不要把密钥粘贴到聊天或提交代码。详细配置、隔离范围、管理员设定、旧数据迁移与部署限制见 [登录与账号隔离](docs/登录与账号隔离.md)。
+| 文档 | 内容 |
+| --- | --- |
+| [完整开发文档](docs/同频项目开发文档.md) / [HTML 阅读版](docs/同频项目开发文档.html) | 业务、架构、数据授权与维护 |
+| [AI 工作区](docs/AI工作区.md) | 求职者对话、原文依据与草稿流程 |
+| [招聘 AI 工作区](docs/招聘AI工作区.md) / [材料 Agent](docs/招聘Agent第三阶段.md) | 授权材料阅读、追问与提纲 |
+| [投递与双向选择](docs/投递与双向选择.md) / [消息中心](docs/消息中心.md) | 邀请、接受、聊天与资料关联 |
+| [贡献指南](CONTRIBUTING.md) | 本地开发、隔离预览与提交约定 |
+| [安全报告](SECURITY.md) | 私下报告账号、授权或数据泄露问题 |
 
-## 项目结构
+欢迎通过 [Issues](https://github.com/lionOvO/tongpin/issues) 报告问题、讨论功能，或提交 Pull Request。报告问题时请使用合成材料，隐藏手机号、简历内容、令牌与密钥。
 
-```text
-app/            API、服务、Agent、确定性规则与 SQLite
-frontend/       Vue 3 页面、TypeScript、CSS、接口客户端与前端测试
-web/            迁移对照用的旧 Streamlit 页面
-config/         默认版本化判据、偏好维度与措辞
-tests/          规则与 API 业务验收
-scripts/        浏览器验证与辅助工具
-docs/           实现口径和验收记录
-docker/         两个服务的 Dockerfile
-data/           运行数据、原文、配置修订和备份（不入库）
-```
+## 开源许可与致谢
 
-完整 PRD 与上游量规已在 docs/upstream 提供并对齐。当前判据状态为「上游已对齐、未冻结」；真实模型效果和完整基准指标需要人工标注集实测，不以自动化测试冒充模型评测。
-
-
-### 平台工作人员管理端
-
-访问 `http://127.0.0.1:8501/admin/login`。管理端提供企业认证审核、账号监管、招聘岗位下架、简历原文监管及操作记录；普通用户无法登录或自行取得管理权限。未认证企业不能进入招聘空间。工作人员先完成手机号验证注册，再由服务器维护者指定为管理员；具体操作与隔离规则见 [登录与账号隔离](docs/登录与账号隔离.md)。没有默认管理账号或默认密码。
-
-「审计与标准配置」位于 `/admin/governance`，可查看跨账号调用元数据、选择企业岗位、查看质量统计并执行留痕的指定岗位治理操作。投递和消息列表支持分页与全历史搜索；求职者粘贴 JD 的对照支持手工画像兜底。2026-10-14 验收问题的对应修复、测试证据和未验证事项见 [修复记录](docs/验收问题修复记录-2026-10-14.md)。
-
-
-管理端与用户端现使用独立 Cookie 和标签页通知频道，可在同一浏览器同时登录不同账号。求职者从 `http://127.0.0.1:8501/login?role=candidate` 登录，工作人员从 `http://127.0.0.1:8501/admin/login` 登录；各自退出不会退出另一端。管理账号设置密码使用 `/admin/forgot-password`。首次升级后重新登录管理端即可，普通账号资料保留；同一账号重设密码仍会撤销该账号的全部旧会话。
-
-Word 导入：DOCX 使用受限 ZIP/XML 提取正文和表格；旧 DOC 需要系统安装 `antiword` 并加入 PATH（Linux：`sudo apt-get install antiword`，Docker 镜像已包含）。Word 原件保留供本人下载，页面展示提取文字；加密、损坏、图片正文及超限文件会提示错误。
+项目原创代码采用 **[MIT License](LICENSE)**。第三方依赖、上游资料与外部来源示例的权利说明见 [NOTICE](NOTICE)。感谢 Vue、FastAPI、LangGraph、PDF.js、Lucide 及其他开源项目。

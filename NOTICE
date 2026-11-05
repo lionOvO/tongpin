@@ -1,0 +1,31 @@
+Tongpin / 同频
+
+Original project code and original project documentation are provided under
+the MIT License in LICENSE. The license does not change the rights of third
+parties in their dependencies, source materials, or other contributions.
+
+Third-party software
+--------------------
+Dependencies retain their respective licenses and notices. See the dependency
+manifests and lock files in the repository; inspect the applicable upstream
+licenses when redistributing dependencies or a bundled build. In particular,
+this project uses Vue, Vite, FastAPI, Pydantic, LangGraph, PDF.js, Lucide, and
+other open-source components. This file is not an exhaustive dependency license
+inventory.
+
+Reference documents and sample materials
+---------------------------------------
+Materials under docs/upstream and externally sourced job descriptions or other
+reference excerpts retain any applicable rights of their original authors;
+they are not relicensed as original Tongpin code by the root MIT License.
+Synthetic identities in examples do not imply affiliation with a real person
+or organization. Do not assume an external source is freely reusable merely
+because a fixture uses fictional company or contact information.
+
+Documentation screenshots
+-------------------------
+Screenshots under docs/assets/screenshots show synthetic materials in isolated
+preview environments. The AI conversations use scripted test providers and
+illustrate product interactions rather than model quality or hiring outcomes.
+No real candidate resumes, production accounts, or uploaded private documents
+are required to reproduce those interactions.
