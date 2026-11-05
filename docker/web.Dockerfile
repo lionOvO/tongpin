@@ -1,10 +1,13 @@
-FROM python:3.12-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
-WORKDIR /srv
-COPY requirements-lock.txt ./
-RUN pip install --no-cache-dir -r requirements-lock.txt && useradd --uid 10001 --create-home talent
-COPY web ./web
-COPY .streamlit ./.streamlit
-USER talent
+FROM node:22-alpine AS build
+WORKDIR /build/frontend
+ENV NODE_OPTIONS=--max-old-space-size=768
+ARG NPM_CONFIG_REGISTRY=https://registry.npmjs.org
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --no-fund --no-audit
+COPY frontend/ ./
+COPY config/ /build/config/
+RUN npm run build
+FROM nginxinc/nginx-unprivileged:1.28-alpine
+COPY docker/frontend.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /build/frontend/dist /usr/share/nginx/html
 EXPOSE 8501
-CMD ["streamlit","run","web/Home.py","--server.address=0.0.0.0","--server.port=8501","--server.headless=true"]

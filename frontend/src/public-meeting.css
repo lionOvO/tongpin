@@ -1,0 +1,92 @@
+/* The opening illustration is a brand scene; business screens keep their own palette. */
+.tp-public .tp-hero-track{background:#fcfaf7}
+.tp-public .tp-hero{gap:clamp(26px,3vw,54px)}
+.tp-public .tp-hero-art{height:600px;display:flex;flex-direction:column;justify-content:center;gap:15px;padding:0 0 45px}
+.tp-public .tp-hero-view-switch{display:flex;justify-content:center;gap:5px;padding:4px;background:#f7f2e6;border:1px solid #e1dfdb;border-radius:30px;flex-shrink:0}
+.tp-public .tp-hero-view-switch button{min-height:38px;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 15px;border:1px solid transparent;border-radius:24px;color:#65596e;font-size:12px;transition:background .2s,color .2s,box-shadow .2s}
+.tp-public .tp-hero-view-switch button[aria-pressed=true]{background:#fff;border-color:#dcdad5;color:var(--brand-ink);box-shadow:0 2px 6px #4932540b}
+.tp-public .tp-hero-view-switch button:hover{color:var(--brand-ink);background:#ffffffb3}
+.tp-public .tp-hero-visual{position:relative;width:100%;height:485px;min-height:0;transform-origin:0 0}
+.tp-public .tp-profile-visual{position:relative;display:grid;place-items:center;width:100%;height:100%}
+.tp-public .tp-art-caption{width:100%;padding-inline:8px}
+.tp-public .tp-picker-demo{display:inline-block;margin-left:6px;font-size:10px;color:#706675;border-bottom:1px solid #e7d7a8}
+.tp-meeting{height:100%;margin:0;display:flex;flex-direction:column;justify-content:center;isolation:isolate}
+.tp-meeting-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 10px 18px;color:#65576e;font-size:12px;letter-spacing:.06em}
+.tp-meeting-mark{font-size:22px;color:var(--brand-ink);line-height:1}
+.tp-meeting-picture{position:relative;overflow:hidden;border-radius:18px;aspect-ratio:1672/941;min-height:0;flex-shrink:1;background:#f5efe6;animation:tp-meeting-arrive 1.4s cubic-bezier(.2,.7,.2,1) both}
+.tp-meeting-picture img{display:block;width:100%;height:100%;object-fit:contain}
+.tp-meeting-picture .tp-meeting-left{clip-path:inset(0 50% 0 0);animation:tp-meeting-left 2.1s cubic-bezier(.2,.7,.2,1) both}
+.tp-meeting-picture .tp-meeting-right{position:absolute;inset:0;clip-path:inset(0 0 0 50%);animation:tp-meeting-right 2.1s cubic-bezier(.2,.7,.2,1) both}
+.tp-meeting-resonance{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tp-meeting-resonance path{stroke-width:2;stroke-linecap:round;stroke-dasharray:1;animation:tp-meeting-connect 1.5s .65s cubic-bezier(.2,.65,.3,1) both}
+.tp-resonance-left{stroke:#9c9381}.tp-resonance-right{stroke:#c68d56}
+.tp-meeting-resonance circle{fill:#fff8ef;stroke:#9f7f30;stroke-width:1.5;animation:tp-meeting-node .6s 1.6s both}
+.tp-meeting-roles{display:grid;grid-template-columns:1fr 24px 1fr;gap:8px;align-items:center;margin-top:22px;padding-inline:8px}
+.tp-meeting-roles>div{display:flex;align-items:center;gap:10px;animation:tp-meeting-label .7s .35s both}
+.tp-meeting-roles>div:last-child{justify-self:end;animation-delay:.5s}
+.tp-meeting-icon{display:grid;place-items:center;width:33px;height:36px;border-radius:10px 10px 10px 3px;background:#f6eac5;color:#7e7769;flex-shrink:0}
+.tp-meeting-roles>div:last-child .tp-meeting-icon{background:#f6e8d9;color:#93653e}
+.tp-meeting-roles strong{display:block;font-size:13px;font-weight:600;line-height:1.6;color:#413f3b}
+.tp-meeting-roles small{display:block;font-size:10px;color:#746b77;margin-top:3px}
+.tp-meeting-between{color:#9d8ca8;text-align:center;font-size:19px}
+.tp-meeting-principle{display:flex;align-items:center;justify-content:center;gap:9px;margin:21px 8px 0;padding-top:16px;border-top:1px solid #eee7d5;font-size:11px;color:#6b5b75;text-align:center}
+.tp-meeting-principle>span{color:#c9b065}.tp-meeting-principle svg{color:var(--brand-ink)}
+@keyframes tp-meeting-arrive{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes tp-meeting-left{from{transform:translateX(-18px)}to{transform:translateX(0)}}
+@keyframes tp-meeting-right{from{transform:translateX(18px)}to{transform:translateX(0)}}
+@keyframes tp-meeting-connect{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:.85}}
+@keyframes tp-meeting-node{from{opacity:0}to{opacity:1}}
+@keyframes tp-meeting-label{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tp-fixed .tp-hero{grid-template-columns:minmax(330px,.9fr) minmax(0,1.2fr)}
+.tp-fixed .tp-hero-art{height:min(650px,calc(100svh - 150px));padding-top:0}
+.tp-fixed .tp-hero-visual{height:calc(100% - 58px)}
+.tp-fixed .tp-meeting-picture{animation:none;opacity:calc(.25 + var(--gather)*.75);transform:translate3d(0,calc((1 - var(--gather))*20px),0) scale(calc(.97 + var(--gather)*.03))}
+.tp-fixed .tp-meeting-picture .tp-meeting-left{animation:none;transform:translate3d(calc((1 - var(--gather))*-18px),0,0)}
+.tp-fixed .tp-meeting-picture .tp-meeting-right{animation:none;transform:translate3d(calc((1 - var(--gather))*18px),0,0)}
+.tp-fixed .tp-meeting-resonance path{animation:none;stroke-dashoffset:calc(1 - var(--gather));opacity:calc(var(--gather)*.85)}
+.tp-fixed .tp-meeting-resonance circle{animation:none;opacity:var(--gather)}
+.tp-fixed .tp-meeting-roles>div{animation:none;opacity:calc(.3 + var(--gather)*.7);transform:translate3d(calc((1 - var(--gather))*-16px),0,0)}
+.tp-fixed .tp-meeting-roles>div:last-child{transform:translate3d(calc((1 - var(--gather))*16px),0,0)}
+@media(min-width:1001px) and (max-height:850px){
+ .tp-fixed .tp-hero-art{height:calc(100svh - 145px);gap:8px}
+ .tp-fixed .tp-meeting-heading{padding-bottom:12px;font-size:11px}
+ .tp-fixed .tp-meeting-roles{margin-top:14px}
+ .tp-fixed .tp-meeting-principle{margin-top:14px;padding-top:12px}
+}
+@media(min-width:1001px) and (max-width:1190px){
+ .tp-fixed .tp-hero{grid-template-columns:minmax(320px,.88fr) minmax(0,1fr);gap:24px}
+ .tp-fixed .tp-meeting-roles{grid-template-columns:1fr 14px 1fr;padding-inline:0;gap:5px}
+ .tp-fixed .tp-meeting-roles>div{gap:6px}
+ .tp-fixed .tp-meeting-icon{width:27px;height:31px}
+ .tp-fixed .tp-meeting-roles strong{font-size:11px}.tp-fixed .tp-meeting-roles small{font-size:9px}
+ .tp-fixed .tp-meeting-principle{font-size:10px;gap:5px}
+}
+@media(max-width:1000px){
+ .tp-public .tp-hero{padding-top:44px}
+ .tp-public .tp-hero-art{height:600px;width:min(100%,700px);margin-inline:auto;padding-bottom:48px}
+ .tp-public .tp-hero-art.tp-show-meeting{height:auto}
+ .tp-public .tp-show-meeting .tp-hero-visual{height:auto}
+ .tp-meeting{height:auto}
+}
+@media(max-width:540px){
+ .tp-public .tp-hero{padding-top:32px;gap:32px}
+ .tp-public .tp-hero-art{height:510px;gap:17px}
+ .tp-public .tp-hero-view-switch button{font-size:11px;min-height:42px;padding-inline:13px}
+ .tp-public .tp-hero-visual{height:420px}
+ .tp-meeting-heading{font-size:11px;padding:0 3px 12px;letter-spacing:0}
+ .tp-meeting-picture{border-radius:12px}
+ .tp-meeting-roles{margin-top:16px;padding:0;gap:5px;grid-template-columns:1fr 16px 1fr}
+ .tp-meeting-roles>div{align-items:flex-start;gap:6px}
+ .tp-meeting-icon{width:25px;height:29px;border-radius:7px 7px 7px 2px}
+ .tp-meeting-icon svg{width:14px;height:14px}
+ .tp-meeting-roles strong{font-size:11px}
+ .tp-meeting-roles small{font-size:10px;line-height:1.7;max-width:108px}
+ .tp-meeting-principle{font-size:10px;gap:5px;margin:16px 0 0;padding-top:14px;flex-wrap:wrap}
+ .tp-meeting-principle svg{display:none}
+ .tp-public .tp-art-caption{font-size:10px;padding-inline:0}
+ .tp-public .tp-picker-demo{font-size:9px;margin-left:3px}
+}
+@media(prefers-reduced-motion:reduce){
+ .tp-public .tp-meeting *,.tp-public .tp-meeting-picture{animation:none!important;transition:none!important;transform:none!important;opacity:1!important}
+ .tp-meeting-resonance path{stroke-dashoffset:0}
+}

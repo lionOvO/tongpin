@@ -6,6 +6,10 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 TABLES = {
+    "video_calls": {"application_id": "applications"},
+    "assessment_tasks": {"job_id": "job_profiles"},
+    "applications": {"job_id": "job_profiles", "resume_id": "resumes"},
+    "ai_sessions": {"resume_id": "resumes", "job_id": "job_profiles"},
     "job_profiles": {}, "candidates": {},
     "resumes": {"candidate_id": "candidates"},
     "batches": {"job_id": "job_profiles", "resume_id": "resumes"},
@@ -41,6 +45,7 @@ class Database:
                 cx.execute(f"CREATE INDEX IF NOT EXISTS idx_{table}_scope ON {table}(env, owner)")
                 for key in refs:
                     cx.execute(f"CREATE INDEX IF NOT EXISTS idx_{table}_{key} ON {table}({key})")
+            cx.execute("CREATE INDEX IF NOT EXISTS idx_application_candidate ON applications(env,json_extract(payload,'$.candidate_owner'))")
 
     @contextmanager
     def transaction(self):

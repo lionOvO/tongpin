@@ -1,0 +1,37 @@
+/* The recruiter desk owns the viewport; each reading pane owns its scroll. */
+.app-shell-recruiter .main-shell{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.app-shell-recruiter .topbar{flex-shrink:0}
+.app-shell-recruiter .main-shell>main{flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;padding:18px 24px;max-width:none;width:100%;margin:0;overflow:hidden}
+.app-shell-recruiter .main-shell>main>.feedback{flex-shrink:0;max-height:110px;overflow:auto;margin-bottom:12px}
+.app-shell-recruiter .app-footer{display:none}
+.app-shell-recruiter .recruiter-ai-profile .profile-header h3{font-size:20px}
+.app-shell-recruiter .recruiter-ai-profile .profile-notice{font-size:11px;line-height:1.8;padding:11px 14px;margin-block:14px 20px}
+@media(max-width:980px){.app-shell-recruiter .main-shell>main{padding:14px 17px}}
+@media(max-width:600px){.app-shell-recruiter .main-shell>main{padding:12px 10px}.app-shell-recruiter .recruiter-ai-profile .profile-header h3{font-size:18px}}
+/* On very short screens, allow page scrolling instead of hiding the input. */
+@media(max-height:580px){
+  .app-shell-recruiter .main-shell{height:auto;min-height:100dvh;overflow:visible}
+  .app-shell-recruiter .main-shell>main{flex:none;overflow:visible}
+  .app-shell-recruiter .recruiter-ai-page{height:680px;flex:none}
+}
+
+/* Candidate-header actions share one visual treatment, including teleported tools. */
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:32px;min-height:32px;padding:5px 10px;border:1px solid var(--control-edge);
+  border-radius:7px;background:#fff;color:var(--text-main);box-shadow:none;
+  font-size:11px;font-weight:500;line-height:1.6;white-space:nowrap;text-decoration:none;
+}
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action svg{width:14px;height:14px;flex-shrink:0}
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action:hover:not(:disabled),
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action[aria-expanded=true]:not(:disabled){
+  background:var(--brand-soft);border-color:var(--brand-focus);color:var(--brand-ink);box-shadow:none;
+}
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action:disabled{
+  color:var(--disabled-ink);background:var(--disabled-paper);border:1px dashed var(--disabled-edge);box-shadow:none;
+}
+.app-shell-recruiter .recruiter-ai-subject .recruiter-chat-options,
+.app-shell-recruiter .recruiter-ai-subject .recruiter-subject-actions{gap:6px}
+@media(max-width:600px){
+  .app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action{height:30px;min-height:30px;padding:4px 7px;font-size:10px}
+}

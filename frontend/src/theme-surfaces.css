@@ -1,0 +1,165 @@
+/* Purple theme surfaces and control depth. Layout and business logic stay independent. */
+:root {
+  --meta-ink: var(--text-muted);
+  --meta-paper: var(--surface-soft);
+  --disabled-paper: #eae8ee;
+  --disabled-ink: #77717f;
+  --disabled-edge: #c6bfce;
+  --read-paper: var(--info-paper);
+}
+
+/* Purple fills use white lettering; links use readable purple ink. */
+:is(.app-shell,.landing-shell) :is(.primary,.ai-send),
+.tp-public .tp-btn,
+.app-shell :is(.tabs,.ai-panel-nav,.ai-result-tabs,.profile-view-switch)>button:is(.active,[aria-pressed=true]),
+.landing-shell .auth-method>button.active:not(:disabled) {
+  color: var(--brand-on);
+}
+.sidebar .brand-symbol,.brand-symbol,.tp-brand>span {
+  color: var(--brand-on);background: var(--brand);
+}
+.sidebar .brand small { color: #cbb9e8; }
+.sidebar .nav-group>a.router-link-active {
+  color: var(--nav-selected-ink);background: var(--nav-selected);
+  box-shadow: inset 3px 0 var(--brand-focus);
+}
+.sidebar .nav-group>a.router-link-active:hover { color:var(--nav-selected-ink);background:var(--nav-selected); }
+.sidebar .workspace-switch:hover:not(:disabled) { border-color:var(--brand-edge); }
+.breadcrumb,.breadcrumb span,.page-heading>p:last-child,.page-heading>div>p:last-child,
+.app-shell :is(.row-main>span,.row-main p,.job-row p,.source-text,blockquote,th,td small) { color:var(--text-muted); }
+.app-shell :is(.detail-heading h2,.reading-heading h3,.form-section>h3) { color:var(--text-main); }
+.app-shell .source-panel { background:var(--read-paper);border-color:var(--border-soft);border-left-color:var(--brand-focus); }
+.app-shell .source-panel>small,.app-shell blockquote small { color:var(--info); }
+.app-shell :is(input,select,textarea) { border-color:var(--brand-edge);color:var(--text-main); }
+input::placeholder,textarea::placeholder { color:#7b7486; }
+input[type=checkbox],input[type=radio],progress { accent-color:var(--brand-ink); }
+
+/* A small physical edge makes actions distinguishable from flat information. */
+:is(.app-shell,.landing-shell) :is(.primary,.ai-send):not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn:not(.tp-btn-outline):not(:disabled) {
+  background:var(--brand);color:var(--brand-on);border:1px solid var(--button-edge);
+  box-shadow:inset 0 1px 0 var(--button-highlight),0 3px 0 var(--button-base),0 5px 9px var(--button-shadow);
+  transform:translateY(0);
+}
+:is(.app-shell,.landing-shell) :is(.primary,.ai-send):hover:not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn:not(.tp-btn-outline):hover:not(:disabled) {
+  background:var(--brand-hover);border-color:var(--button-edge);color:var(--brand-on);
+  box-shadow:inset 0 1px 0 var(--button-highlight),0 4px 0 var(--button-base),0 7px 12px var(--button-shadow);
+  transform:translateY(-1px);
+}
+:is(.app-shell,.landing-shell) :is(.primary,.ai-send):active:not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn:not(.tp-btn-outline):active:not(:disabled) {
+  transform:translateY(2px);box-shadow:inset 0 1px 2px var(--button-pressed-shadow),0 1px 0 var(--button-base);
+}
+:is(.app-shell,.landing-shell) :is(.secondary,.text-link,.icon-button):not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn-outline:not(:disabled) {
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 var(--secondary-base),0 3px 5px #35244910;
+}
+:is(.app-shell,.landing-shell) :is(.secondary,.text-link,.icon-button):hover:not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn-outline:hover:not(:disabled) {
+  transform:translateY(-1px);box-shadow:inset 0 1px 0 #fff,0 3px 0 var(--secondary-hover-base),0 5px 8px #35244914;
+}
+:is(.app-shell,.landing-shell) :is(.secondary,.text-link,.icon-button):active:not(:disabled):not([aria-disabled=true]),
+.tp-public .tp-btn-outline:active:not(:disabled) {
+  transform:translateY(1px);box-shadow:inset 0 1px 2px #35244910,0 1px 0 var(--secondary-base);
+}
+.app-shell :is(.tabs,.ai-panel-nav,.ai-result-tabs,.profile-view-switch)>button,
+.landing-shell .auth-method>button { box-shadow:none; }
+.app-shell .tabs>button.active { color:var(--brand-on); }
+.tp-public .tp-btn-outline { color:var(--brand-ink);border-color:var(--control-edge);background:white; }
+.tp-public .tp-btn-outline:hover:not(:disabled) { color:var(--brand-ink);background:var(--brand-faint); }
+.tp-public .tp-brand small,.tp-public em { color:var(--brand-ink); }
+.tp-public em { text-decoration:none; }
+.tp-public .tp-skip { color:var(--brand-on); }
+.tp-public .tp-person-picker button[aria-pressed=true]>span { color:var(--brand-on); }
+
+/* Materials recede, conversation stays white, results have a purple masthead. */
+.ai-workspace .ai-layout { gap:10px;border:0;background:var(--page-paper);border-radius:0; }
+.ai-workspace :is(.ai-materials,.ai-chat,.ai-results) { border:1px solid var(--border-soft);border-radius:10px;overflow:hidden; }
+.ai-workspace .ai-materials { background:var(--material-paper); }
+.ai-workspace .ai-materials>.ai-panel-heading { border-bottom:1px solid var(--edit-edge);background:var(--material-paper); }
+.ai-workspace .ai-material-footer { background:var(--material-paper);border-color:var(--edit-edge); }
+.ai-workspace .ai-material-card { background:var(--surface-paper);border-color:var(--edit-edge);box-shadow:0 2px 5px #42256510; }
+.ai-workspace .ai-material-card>svg { color:var(--brand-ink); }
+.ai-workspace .ai-chat { background:#fff; }
+.ai-workspace .ai-chat-heading { background:var(--surface-paper); }
+.ai-workspace .ai-results { background:var(--result-paper);border-color:var(--result-edge); }
+.ai-workspace .ai-results>.ai-panel-heading { background:var(--brand);color:var(--brand-on);border-bottom:1px solid var(--button-edge); }
+.ai-workspace .ai-results>.ai-panel-heading h2 { color:var(--brand-on);font-weight:700; }
+.ai-workspace .ai-result-controls button { color:var(--brand-on); }
+.ai-workspace .ai-result-tabs { background:var(--brand-soft);border-color:var(--result-edge); }
+.ai-workspace .ai-results-footer { background:var(--result-paper);border-color:var(--result-edge); }
+.ai-workspace .ai-message.user>p,.app-shell .ai-message.user>p,
+.recruiter-chat .recruiter-chat-message.user>p { background:var(--brand-soft);color:var(--text-main);border:1px solid var(--brand-edge); }
+.ai-workspace .ai-result-card { background:white;border-color:var(--result-edge); }
+.ai-workspace .ai-result-empty { color:var(--brand-ink); }
+.ai-workspace .ai-result-empty p { color:var(--text-muted); }
+.ai-workspace .ai-revision .ai-before { background:var(--read-paper); }
+.ai-workspace .ai-revision .ai-after { background:var(--success-paper); }
+.app-shell .ai-composer { border-color:var(--control-edge);background:#fff; }
+.app-shell :is(.ai-composer,.recruiter-composer):focus-within { border-color:var(--brand-focus);box-shadow:0 0 0 2px var(--brand-soft); }
+
+/* Recruiter desk uses the same material / conversation / result convention. */
+.app-shell-recruiter .recruiter-ai-candidates { background:var(--material-paper); }
+.app-shell-recruiter .recruiter-ai-candidates>header { background:var(--material-paper); }
+.app-shell-recruiter .recruiter-ai-side-context { background:var(--brand-faint); }
+.app-shell-recruiter .recruiter-ai-candidates .recruiter-candidate { background:var(--surface-paper); }
+.app-shell-recruiter .recruiter-ai-candidates .recruiter-candidate[aria-pressed=true] { background:var(--brand-soft);border-color:var(--brand-focus); }
+.app-shell-recruiter .recruiter-ai-workbench>.recruiter-results { background:var(--result-paper); }
+.app-shell-recruiter .recruiter-results>.results-heading { background:var(--brand);color:var(--brand-on);border-bottom-color:var(--button-edge); }
+.app-shell-recruiter .recruiter-results>.results-heading :is(h3,div) { color:var(--brand-on); }
+.app-shell-recruiter .recruiter-results>.results-heading .result-expand {
+  background:var(--surface-paper);color:var(--brand-ink);border-color:var(--brand-edge);
+}
+.app-shell-recruiter .recruiter-results>.results-heading .result-expand:hover {
+  background:var(--brand-soft);color:var(--brand-ink);border-color:var(--brand-focus);
+}
+.app-shell-recruiter .recruiter-results>.results-tabs { background:var(--brand-soft); }
+.app-shell-recruiter .results-tabs button[aria-pressed=true] { background:var(--brand);color:var(--brand-on); }
+.app-shell-recruiter .result-answer { padding:18px;background:var(--surface-paper);border:1px solid var(--result-edge);border-radius:9px; }
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action:not(:disabled) {
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 var(--secondary-base),0 3px 5px #35244910;
+}
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action:active:not(:disabled) {
+  transform:translateY(1px);box-shadow:0 1px 0 var(--secondary-base);
+}
+
+/* Other business pages share the hierarchy without extra panel colors. */
+.app-shell :is(.list-toolbar,.selection-footer,.context-bar) { background:var(--material-paper); }
+.app-shell :is(.source-panel,.job-original,blockquote) { background:var(--read-paper); }
+.app-shell .detail-heading { background:var(--surface-paper); }
+.app-shell .job-facts>div { background:var(--surface-soft); }
+.app-shell .job-detail-panel .job-requirements+.button-row {
+  margin-top:24px;padding-top:20px;padding-bottom:4px;
+  border-top:1px solid var(--border-soft);gap:12px 14px;align-items:stretch;
+}
+.app-shell .job-detail-panel .job-requirements+.button-row>:is(button,a) {
+  min-height:42px;padding:9px 16px;display:inline-flex;justify-content:center;align-items:center;
+}
+.app-shell :is(.pill,.inline-meta,.snapshot-note,.version-line,.hiring-strength-tags>span) { box-shadow:none;transform:none; }
+.app-shell .pill:not(.teal):not(.amber) { color:var(--text-muted); }
+.app-shell :is(.file-icon,.job-icon) { color:var(--brand-ink);background:var(--brand-soft); }
+.landing-shell-admin .landing-main { background:transparent; }
+
+/* State is stronger than depth. Disabled controls never lift or glow. */
+:is(.app-shell,.landing-shell,.tp-public) :is(button,a):is(:disabled,[aria-disabled=true]),
+.app-shell-recruiter .recruiter-ai-page .recruiter-ai-content .recruiter-ai-subject .recruiter-header-action:disabled {
+  background:var(--disabled-paper);color:var(--disabled-ink);border:1px dashed var(--disabled-edge);
+  box-shadow:none;transform:none;cursor:not-allowed;opacity:1;
+}
+@media(max-width:1000px) {
+  .ai-workspace .ai-layout { gap:0; }
+}
+@media(max-width:600px) {
+  .app-shell .job-detail-panel .job-requirements+.button-row {
+    margin-top:20px;padding-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+  }
+  .app-shell .job-detail-panel .job-requirements+.button-row>:is(button,a) {
+    min-width:0;padding:9px 10px;font-size:12px;white-space:normal;gap:6px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  :is(.app-shell,.landing-shell,.tp-public) :is(button,a) { transition:none; }
+  :is(.app-shell,.landing-shell) :is(.primary,.secondary,.text-link,.icon-button,.ai-send):is(:hover,:active):not(:disabled):not([aria-disabled=true]),
+  .tp-public .tp-btn:is(:hover,:active):not(:disabled):not([aria-disabled=true]) { transform:none; }
+}

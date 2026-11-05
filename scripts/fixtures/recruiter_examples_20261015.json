@@ -1,0 +1,99 @@
+{
+  "seed_id": "user-recruiter-examples-20261015",
+  "notice": "用户提供岗位内容；企业、人员、地址及登录标识均为本地合成测试数据。不可作为真实企业认证或对外招聘依据。",
+  "jobs": [
+    {
+      "source": "图片1：右侧选中的 Python 开发岗位",
+      "phone": "19900001001",
+      "company": "青屿数联科技（虚拟测试企业）",
+      "contact": "测试招聘人一号",
+      "address": "示例市·青屿测试园区01号（虚构地址）",
+      "title": "Python开发工程师",
+      "direction": "后端开发",
+      "education": "本科",
+      "jd": "Python开发工程师\n薪资：200–250元/天\n实习安排：3天/周，1个月\n学历：本科\n\n岗位标签：爬虫经验、Docker、Django、PostgreSQL、MySQL、Redis、Linux开发/部署经验、Python、Flask。\n\n岗位职责：\n1.负责Python相关开发工作，确保代码质量和项目进度。\n2.参与团队合作，与团队成员有效沟通，共同推进项目。\n3.持续优化工作流程，提升开发效率和产品质量。\n\n任职要求：\n1.具备良好的沟通能力和团队协作精神。\n2.能够独立完成任务，具有较强的问题解决能力。\n3.对Python技术有深入理解，能够不断学习和应用新知识。",
+      "requirements": [
+        {"skill":"Python","required_level":3,"quote":"对Python技术有深入理解，能够不断学习和应用新知识","hard":true},
+        {"skill":"Docker","required_level":1,"quote":"Docker","hard":false},
+        {"skill":"Django","required_level":1,"quote":"Django","hard":false},
+        {"skill":"PostgreSQL","required_level":1,"quote":"PostgreSQL","hard":false},
+        {"skill":"MySQL","required_level":1,"quote":"MySQL","hard":false},
+        {"skill":"Redis","required_level":1,"quote":"Redis","hard":false},
+        {"skill":"Linux","required_level":1,"quote":"Linux开发/部署经验","hard":false},
+        {"skill":"Flask","required_level":1,"quote":"Flask","hard":false}
+      ]
+    },
+    {
+      "source": "图片2：右侧选中的 FDE实习生（AIGC）",
+      "phone": "19900001002",
+      "company": "映岚视觉科技（虚拟测试企业）",
+      "contact": "测试招聘人二号",
+      "address": "示例市·映岚测试园区02号（虚构地址）",
+      "title": "FDE实习生（AIGC）",
+      "direction": "AIGC内容创作",
+      "education": "本科",
+      "jd": "FDE实习生（AIGC）\n薪资：100–200元/天\n实习安排：5天/周，3个月\n学历：本科\n\n岗位标签：现场办公、有视觉设计经验技能、AI、AIGC设计经验、Midjourney、Stable Diffusion、甲方公司、1年以上视觉设计经验、电商行业经验。\n\n视觉设计 / 数字媒体 / 动画 / 编导 / 影视等相关背景，能够用 AI 完成图片或视频内容生产。\n\n基础要求：\n1、有实际 AIGC 图片或视频生成经验；\n2、使用过seedance、Midjourney、Stable Diffusion、Flux、即梦、可灵、Runway、Veo 等任一工具；\n3、能展示完整作品，有基础审美和成品意识，能判断“能生成”和“能交付”之间那条人类经常假装不存在的鸿沟。\n\n重点加分：\n1、做过 AI 漫剧、AI 短剧、AI 视频、角色连续性内容；\n2、有角色一致性、镜头一致性、风格控制、分镜设计经验；\n3、有 Prompt 优化、模型参数调优、LoRA / 工作流相关经验；\n4、能把重复生产流程沉淀成模板或 Workflow。\n\n加分项：\n有以下行业经验：互联网·社交网络与媒体·计算机软件。",
+      "requirements": [
+        {"skill":"AIGC图片或视频生成","required_level":2,"quote":"有实际 AIGC 图片或视频生成经验","hard":true},
+        {"skill":"生成工具（seedance/Midjourney/Stable Diffusion/Flux/即梦/可灵/Runway/Veo任一）","required_level":1,"quote":"使用过seedance、Midjourney、Stable Diffusion、Flux、即梦、可灵、Runway、Veo 等任一工具","hard":true},
+        {"skill":"作品展示与交付","required_level":2,"quote":"能展示完整作品，有基础审美和成品意识","hard":true},
+        {"skill":"AI漫剧或视频制作","required_level":2,"quote":"做过 AI 漫剧、AI 短剧、AI 视频、角色连续性内容","hard":false},
+        {"skill":"分镜与一致性控制","required_level":2,"quote":"有角色一致性、镜头一致性、风格控制、分镜设计经验","hard":false},
+        {"skill":"Prompt优化","required_level":2,"quote":"有 Prompt 优化、模型参数调优、LoRA / 工作流相关经验","hard":false},
+        {"skill":"LoRA","required_level":2,"quote":"LoRA / 工作流相关经验","hard":false},
+        {"skill":"Workflow","required_level":2,"quote":"能把重复生产流程沉淀成模板或 Workflow","hard":false}
+      ]
+    },
+    {
+      "source": "图片3：右侧选中的 FDE开发实习生（2027届）",
+      "phone": "19900001003",
+      "company": "澄川智研科技（虚拟测试企业）",
+      "contact": "测试招聘人三号",
+      "address": "示例市·澄川测试园区03号（虚构地址）",
+      "title": "FDE开发实习生（2027届）",
+      "direction": "全栈开发",
+      "education": "硕士",
+      "jd": "FDE开发实习生（2027届）\n薪资：160–200元/天\n实习安排：5天/周，6个月\n学历：硕士\n\n岗位标签：分布式经验、微服务经验、SpringCloud、MySQL、Kafka、Python。\n\n岗位职责：\n1、对接客户梳理业务需求，转化为技术需求同步研发，管理项目落地预期。\n2、使用前端、Python 等技术完成定制开发、功能调试与产品 Demo 验证。\n3、负责项目环境部署、版本更新、线上故障排查与项目验收工作。\n4、联动内部研发、产品团队，推进项目落地，按期输出项目复盘与周报。\n5、汇总现场产品问题与优化建议，沉淀部署文档、落地案例。\n6、在导师带领下参与项目，逐步独立承接中小型项目交付。\n\n入职要求：\n1、掌握至少一门编程语言（Java/Python/Go/JS等）。\n2、了解 Git，接触 Docker、大模型应用、云平台者优先，有在校实战项目更佳。\n3、有编程赛事获奖、软件开发实习、AI 应用自研项目经历优先录用。",
+      "requirements": [
+        {"skill":"编程语言（Java/Python/Go/JS任一）","required_level":2,"quote":"掌握至少一门编程语言（Java/Python/Go/JS等）","hard":true},
+        {"skill":"Git","required_level":1,"quote":"了解 Git","hard":true},
+        {"skill":"Docker","required_level":1,"quote":"接触 Docker、大模型应用、云平台者优先","hard":false},
+        {"skill":"大模型应用","required_level":1,"quote":"接触 Docker、大模型应用、云平台者优先","hard":false},
+        {"skill":"云平台","required_level":1,"quote":"接触 Docker、大模型应用、云平台者优先","hard":false},
+        {"skill":"项目部署与排障","required_level":2,"quote":"负责项目环境部署、版本更新、线上故障排查与项目验收工作","hard":true},
+        {"skill":"需求梳理","required_level":2,"quote":"对接客户梳理业务需求，转化为技术需求同步研发，管理项目落地预期","hard":true},
+        {"skill":"SpringCloud","required_level":1,"quote":"SpringCloud","hard":false},
+        {"skill":"MySQL","required_level":1,"quote":"MySQL","hard":false},
+        {"skill":"Kafka","required_level":1,"quote":"Kafka","hard":false}
+      ]
+    },
+    {
+      "source": "用户提供的文字：制造业 AI Agent 现场交付岗位",
+      "phone": "19900001004",
+      "company": "序衡工业智能（虚拟测试企业）",
+      "contact": "测试招聘人四号",
+      "address": "示例市·序衡测试园区04号（虚构地址）",
+      "title": "制造业AI Agent交付工程师（实习/应届）",
+      "direction": "AI应用与现场交付",
+      "education": null,
+      "jd": "制造业AI Agent交付工程师（实习/应届）\n\n任职要求：\n1、高校在校生实习或应届毕业生，机械、自动化、电气等专业；\n2、能听懂产线人员的语言，能跟车间主任、老师傅、仓库管理员顺畅沟通，具备发现真实业务痛点的能力；\n3、看到 Excel 表格、纸质点检单、微信群排产记录等，能判断出哪些环节可以做成 AI Agent；\n4、熟悉大模型应用开发：掌握 Prompt 工程、RAG 检索增强、Function Calling/工具调用、Agent 工作流编排；\n5、具备技术判断力：知道什么场景该用 RAG、什么时候结构化查询更好、什么时候不值得上 AI；\n6、熟练使用 Python（后端为 FastAPI + Python 3.11），会用 REST API，能看懂 OpenAPI 文档并独立写接口对接；\n7、前端不要求精通，但能看懂 HTML/JS，能修改页面、调通 Next.js 项目；会用 Git 管理代码并提交到 GitHub；\n8、掌握 Linux 基本操作：SSH 登录服务器、看日志、查进程、排查端口占用；\n9、熟练使用 Docker/Docker Compose，能自己编写配置并启动容器，能排查容器启动失败问题；\n10、能在干净的服务器上从零部署服务并保障其稳定运行，沟通协作顺畅，能独立解决实际问题。\n\n岗位职责：\n1、跟销售一起下客户现场（工厂、车间、供应链部门），把客户模糊的“想搞 AI”需求翻译成具体可落地的场景；\n2、发现客户真实业务痛点——排产靠 Excel、老师傅经验没沉淀、设备点检记录纸质化、报价拍脑袋等，判断哪些问题可以做成 AI Agent；\n3、快速开发原型：2–3 天出可运行的 Agent 原型给客户演示，根据反馈当场迭代修改；\n4、负责 Agent 的部署落地，将 Demo 部署到客户环境中真实运行并保障稳定；\n5、将客户的行业知识（工艺流程、设备手册、质检标准、历史工单）灌入 RAG 知识库并调优检索效果；\n6、在 ZleapOS 之上开发行业 Agent（设备故障排查助手、工艺参数问答、报价辅助等），并封装为 skills/MCP 对外暴露；\n7、将每个客户案例沉淀为可复用模板，推动前线交付能力产品化，下一个客户不用从零开始。\n\n加分项：\n1、制造业、机械、自动化、电气、化工、物流等工科背景，或有工厂实习经历；\n2、用过 LangChain/LlamaIndex/Dify/Coze/n8n/MCP，做过自己的 Agent 小项目；\n3、GitHub 上有可看的项目，有技术博客或技术社区贡献；\n4、参加过 CTF、Kaggle、AI 应用比赛并拿名次；\n5、会用 AI 编程工具（Claude Code、Cursor 等）并真的用它们交付过东西；\n6、会 Nginx 配置、会看 CPU/内存/磁盘瓶颈、用过云服务器。\n\n岗位福利：\n薪酬：实习期间底薪+项目提成，具有竞争力的薪酬与年终奖激励；\n住宿：包住，公寓式宿舍，两人间，有空调、风扇、独立卫浴、电梯；\n休假：双休、五险一金；\n吃饭：每月600元餐补；\n活动：年度体检、年度旅游、纯吃喝抽奖年会等福利。",
+      "requirements": [
+        {"skill":"Python","required_level":3,"quote":"熟练使用 Python（后端为 FastAPI + Python 3.11）","hard":true},
+        {"skill":"FastAPI","required_level":2,"quote":"后端为 FastAPI + Python 3.11","hard":true},
+        {"skill":"Prompt工程","required_level":2,"quote":"掌握 Prompt 工程、RAG 检索增强、Function Calling/工具调用、Agent 工作流编排","hard":true},
+        {"skill":"RAG","required_level":2,"quote":"将客户的行业知识（工艺流程、设备手册、质检标准、历史工单）灌入 RAG 知识库并调优检索效果","hard":true},
+        {"skill":"Function Calling","required_level":2,"quote":"Function Calling/工具调用","hard":true},
+        {"skill":"Agent工作流编排","required_level":2,"quote":"Agent 工作流编排","hard":true},
+        {"skill":"REST API","required_level":2,"quote":"会用 REST API，能看懂 OpenAPI 文档并独立写接口对接","hard":true},
+        {"skill":"HTML/JS","required_level":1,"quote":"前端不要求精通，但能看懂 HTML/JS","hard":true},
+        {"skill":"Next.js","required_level":2,"quote":"能修改页面、调通 Next.js 项目","hard":true},
+        {"skill":"Git","required_level":2,"quote":"会用 Git 管理代码并提交到 GitHub","hard":true},
+        {"skill":"Linux","required_level":2,"quote":"掌握 Linux 基本操作：SSH 登录服务器、看日志、查进程、排查端口占用","hard":true},
+        {"skill":"Docker","required_level":3,"quote":"熟练使用 Docker/Docker Compose，能自己编写配置并启动容器，能排查容器启动失败问题","hard":true},
+        {"skill":"MCP","required_level":2,"quote":"并封装为 skills/MCP 对外暴露","hard":true},
+        {"skill":"Agent开发框架（LangChain/LlamaIndex/Dify/Coze/n8n/MCP任一）","required_level":1,"quote":"用过 LangChain/LlamaIndex/Dify/Coze/n8n/MCP，做过自己的 Agent 小项目","hard":false},
+        {"skill":"Nginx","required_level":2,"quote":"会 Nginx 配置、会看 CPU/内存/磁盘瓶颈、用过云服务器","hard":false}
+      ]
+    }
+  ]
+}

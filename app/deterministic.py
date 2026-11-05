@@ -121,14 +121,19 @@ def parse_jd(text):
     clauses = [s.strip() for s in re.split(r"[\n。；;]", text) if s.strip()]
     requirements = []
     for skill in SKILLS:
-        quote = next((s for s in clauses if mentions(s, skill)), None)
+        quotes = [s for s in clauses if mentions(s, skill)]
+        # A title or tech-stack mention must not hide a later explicit requirement.
+        def requirement_context(s):
+            prefix = s[:re.search(re.escape(skill), s, re.I).start()]
+            return (bool(re.search(r'任职|要求|必备', s)) and not bool(re.search(r'加分|优先|额外', s)), bool(re.search(r'精通|熟练|熟悉|了解', prefix)), usage_scene(s, skill))
+        quote = max(quotes, key=requirement_context) if quotes else None
         if quote:
             # Bind the closest proficiency word to this skill, not every word in a JD clause.
             prefix = quote[:re.search(re.escape(skill), quote, re.I).start()]
             declared = re.findall(r'精通|熟练|熟悉|了解', prefix)
             level = {'精通':4, '熟练':3, '熟悉':2, '了解':1}[declared[-1]] if declared else (2 if usage_scene(quote, skill) else 1)
             requirements.append({"skill":skill,"required_level":level,"quote":quote,"hard":not bool(re.search(r"加分|优先|额外",quote))})
-    direction = "前端开发" if re.search(r"前端", text) and not re.search(r"后端", text) else "数据与算法" if re.search(r"算法|机器学习",text) else "全栈开发" if re.search(r"全栈",text) else "后端开发"
+    direction = ("全栈开发" if re.search(r"全栈", text) else "数据与算法" if re.search(r"算法|机器学习|数据(?:分析|应用|科学|工程)", text) else "测试与质量" if re.search(r"测试工程师|质量工程师|软件测试", text) else "基础设施" if re.search(r"基础设施|运维工程师|\bSRE\b", text, re.I) else "前端开发" if re.search(r"前端", text) and not re.search(r"后端", text) else "后端开发")
     edu = next((e for e in ["博士","硕士","本科","大专"] if e in text),None)
     return {"requirements":requirements,"direction":direction,"education":edu}
 
@@ -246,7 +251,8 @@ def major_result(text, profile, mapping):
     known_names = {name for d in domains for key in ('direct', 'adjacent', 'weak') for name in d[key]}
     if lines and not transferable and any(name in line for name in known_names for line in lines):
         return dimension_result('D1', 'B1', lines[:1], ['专业在当前领域的三类映射中均未命中，且未见迁移证据'])
-    return dimension_result('D1', 'insufficient', [], ['专业缺失或未在已评审映射表覆盖；不能猜测为无关专业'])
+    # Missing or unmapped majors remain insufficient, never inferred as unrelated.
+    return dimension_result('D1', 'insufficient', [], ['专业信息缺失或未在已评审映射表覆盖'])
 
 
 def project_result(text, profile):
@@ -257,7 +263,8 @@ def project_result(text, profile):
     if not related:
         if absent and complete_basic_text(text) and not records:
             return dimension_result('D3', 'B1', [absent], ['明确说明无相关项目，教育与技能等基本描述存在；非仅未提及'])
-        return dimension_result('D3', 'insufficient', [], ['未能定位对口项目；缺失不代表没有项目'])
+        # Not mentioning a project is not an explicit statement of having none.
+        return dimension_result('D3', 'insufficient', [], ['未能定位与岗位相关的项目描述'])
     accomplished = [s for s in related if not re.search(r'未实现|未完成|未上线|没有上线|计划|目标|预计|希望', s)]
     core = [s for s in accomplished if re.search(r'主导|担任.*核心|核心(?:成员|角色|职责)|负责.*核心', s)]
     outcomes = [s for s in accomplished if re.search(r'(?:实现|完成|构建|开发).{2,}(?:功能|平台|系统|服务|接口|工具|应用|缓存|统计)|上线|被.*使用|https?://', s)]
@@ -306,7 +313,8 @@ def internship_result(text, profile):
     unrelated = [s for s in records if re.search(r'与.*(?:岗位|方向|领域).*(?:无关|不相关)|不相关.*实习', s)]
     if unrelated:
         return dimension_result('D5', 'B2', unrelated, ['原文明示实习与岗位领域无关'])
-    return dimension_result('D5', 'insufficient', [], ['未写实习，或相关性/时长/职责证据不足；不猜测实习时长'])
+    # Never fill missing internship duration or responsibilities by inference.
+    return dimension_result('D5', 'insufficient', [], ['实习经历的相关性、时长或职责描述不足'])
 
 
 def presentation_violations(text, config, enterprise=True):

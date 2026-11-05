@@ -5,8 +5,8 @@ import pytest
 from app.deterministic import skill_tier,median_tier,gpa_tier
 from app.security import redact
 
-CAND={"X-Demo-Actor":"candidate:lin"}
-OTHER={"X-Demo-Actor":"candidate:zhou"}
+CAND={"X-Test-Account":"candidate:lin"}
+OTHER={"X-Test-Account":"candidate:zhou"}
 
 
 def data(client):
@@ -39,11 +39,13 @@ def test_sanitization():
     assert '软件工程' in safe and 'Python' in safe
 
 
-def test_health_and_15_tables(client):
+def test_health_and_business_tables(client):
     assert client.get('/health').json()['status']=='ok'
     svc=client.app.state.service
     with svc.db.transaction() as cx:
-        assert len(cx.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall())==15
+        names={row[0] for row in cx.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        from app.db import TABLES
+        assert names == set(TABLES) and {'ai_sessions', 'applications', 'assessment_tasks'} <= names
         assert not cx.execute('PRAGMA foreign_key_check').fetchall()
 
 
@@ -65,6 +67,8 @@ def test_snapshots_immutable_and_missing_is_unknown(client):
     payload={'side':'candidate','resume_id':r['id'],'dimensions':values,'dimension_version':pref['dimension_version'],'share_with_counterparty':True}
     assert client.post('/preferences/submit',json=payload,headers=CAND).status_code==200
     current=client.post('/matches/run',json={'job_id':j['id'],'resume_id':r['id']}).json()
+    assert current['id']==old['id']  # A previous share does not authorize a future snapshot.
+    current=client.post('/matches/run',json={'job_id':j['id'],'resume_id':r['id'],'share_with_job':True},headers=CAND).json()
     assert current['overall_tier']=='无法判断'
     assert next(d for d in current['dimension_results'] if d['dimension_id']=='autonomy')['tier']=='无法判断'
     historic=client.get('/matches/'+old['id']).json()

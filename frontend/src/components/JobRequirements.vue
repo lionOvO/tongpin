@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import { BriefcaseBusiness, GraduationCap, Quote, Layers3 } from '@lucide/vue'
+import type { Job } from '../types'
+defineProps<{ profile: Job['profile']; levelNames?: Record<string, string> }>()
+</script>
+
+<template>
+  <section class="job-requirements" aria-label="岗位要求概览">
+    <dl class="job-facts"><div><dt><BriefcaseBusiness :size="16" />技术方向</dt><dd>{{ profile.direction || '未指定' }}</dd></div><div><dt><GraduationCap :size="16" />学历要求</dt><dd>{{ profile.education || '未指定' }}</dd></div><div><dt><Layers3 :size="16" />技能要求</dt><dd>{{ profile.requirements.length }} <small>项</small></dd></div></dl>
+    <header class="job-requirements-heading"><h3>这个岗位需要什么</h3><span>每项要求保留岗位原文</span></header>
+    <div class="job-requirement-list"><article v-for="(r,i) in profile.requirements" :key="i" class="job-requirement-readout"><header><h4><template v-for="(part,partIndex) in r.skill.split('/')" :key="partIndex"><template v-if="partIndex">/<wbr /></template>{{ part }}</template></h4><span class="requirement-kind">{{ r.hard ? '主要要求' : '补充要求' }}</span></header><p class="job-level">{{ levelNames ? '要求程度' : '要求的行为判据' }} <strong><template v-if="levelNames?.[String(r.required_level)]">{{ levelNames[String(r.required_level)] }} · </template>{{ r.required_level }} 级</strong></p><blockquote><small><Quote :size="13" />岗位原文</small><p>{{ r.quote }}</p></blockquote></article></div>
+    <p v-if="!profile.requirements.length" class="muted">暂未整理技能要求，可以先查看岗位原文。</p>
+  </section>
+</template>
+
+<style scoped>
+.job-requirements{min-width:0}.job-facts{display:grid;grid-template-columns:1.2fr 1fr .8fr;margin:0 0 28px;gap:14px}.job-facts>div{padding:17px 19px;background:var(--surface-soft);border:1px solid var(--border-soft);border-radius:10px;min-width:0}.job-facts dt{display:flex;align-items:center;gap:7px;font-size:12px;color:#716d66}.job-facts dd{margin:9px 0 0;font-size:19px;font-weight:650;color:#3b372e;overflow-wrap:anywhere}.job-facts dd small{font-weight:400;font-size:12px}.job-requirements-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:15px}.job-requirements-heading h3{font-size:17px}.job-requirements-heading>span{font-size:12px;color:#7b7871}.job-requirement-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.job-requirement-readout{display:grid;grid-template-rows:auto auto 1fr;border:1px solid var(--border-soft);border-top:3px solid var(--brand-focus);border-radius:10px;background:#fff;overflow:hidden;min-width:0}.job-requirement-readout>header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:18px 18px 8px}.job-requirement-readout h4{flex:1;min-width:0;font-size:16px;line-height:1.5;overflow-wrap:anywhere}.requirement-kind{font-size:11px;color:#6b675f;background:var(--surface-soft);padding:2px 7px;border-radius:3px;white-space:nowrap;flex-shrink:0}.job-level{padding:0 18px 16px;font-size:12px;color:#7a7770}.job-level strong{color:#4e4a41;font-weight:600;margin-left:9px}.job-requirement-readout blockquote{margin:0;padding:13px 18px 18px;background:var(--surface-soft);border:0;border-top:1px solid var(--border-soft);border-radius:0;min-height:108px;white-space:normal;color:#545047;font-size:14px;line-height:1.9}.job-requirement-readout blockquote small{display:flex;align-items:center;gap:5px;font-size:11px;margin-bottom:6px;color:#7b776f}.job-requirement-readout blockquote p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+@supports(grid-template-rows:subgrid){.job-requirement-readout{grid-template-rows:subgrid;grid-row:span 3;row-gap:0}}
+@media(max-width:1100px){.job-requirement-list{grid-template-columns:1fr}.job-requirement-readout{grid-template-rows:auto auto 1fr;grid-row:auto}.job-facts{gap:9px}.job-facts>div{padding:13px}.job-facts dd{font-size:16px}}@media(max-width:600px){.job-facts{grid-template-columns:1fr 1fr}.job-facts>div:last-child{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px}.job-facts>div:last-child dd{margin:0}.job-requirements-heading{flex-wrap:wrap;gap:4px}.job-requirement-readout>header{padding:16px 15px 8px}}
+</style>

@@ -80,6 +80,17 @@ def test_discipline_6_explicit_absence_vs_unmentioned_or_incomplete():
     assert project_result('无相关项目', PROFILE)['tier'] == 'insufficient'
 
 
+def test_missing_information_explanations_keep_constraints_internal():
+    rows = [major_result('本科\n技能：Python', PROFILE, MAJORS),
+            project_result('专业：软件工程，本科\n技能：Python', PROFILE),
+            internship_result('后端开发实习，使用 Python 开发接口', PROFILE)]
+    for row in rows:
+        assert row['tier'] == 'insufficient'
+        assert not row['evidence']
+        assert row['anchor_hits']
+        assert not any(word in row['rationale'] for word in ['不能猜测', '不猜测', '缺失不代表'])
+
+
 def test_discipline_7_evidence_voice_and_candidate_interview_boundary(client):
     for text, function in [('专业：软件工程，本科', lambda t:major_result(t, PROFILE, MAJORS)),
                            ('后端开发实习 6 个月，主导 Python API 服务', lambda t:internship_result(t, PROFILE)),
@@ -88,7 +99,7 @@ def test_discipline_7_evidence_voice_and_candidate_interview_boundary(client):
         conclusion = row['rationale'].split('；简历写明：')[0]
         assert conclusion.startswith('简历描述')
         assert not any(term in conclusion for term in ['具备','掌握','精通','确实','证实','认定'])
-    candidate = {'X-Demo-Actor':'candidate:lin'}
+    candidate = {'X-Test-Account':'candidate:lin'}
     resume = client.get('/resumes', headers=candidate).json()[0]
     job = client.get('/jobs', headers=candidate).json()[0]
     response = client.post('/fit/analyze', json={'resume_id':resume['id'], 'job_id':job['id']}, headers=candidate)

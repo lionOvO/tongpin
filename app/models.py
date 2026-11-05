@@ -1,5 +1,5 @@
-from typing import Literal
-from pydantic import BaseModel, Field
+from typing import Literal, Annotated
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 Origin = Literal["synthetic", "real"]
 Side = Literal["enterprise", "candidate"]
@@ -12,17 +12,41 @@ class JobInput(BaseModel):
     manual_profile: dict | None = None
 
 
+class ReferenceJobInput(BaseModel):
+    title: str = Field(min_length=2, max_length=100)
+    jd: str = Field(min_length=20, max_length=30000)
+    data_origin: Origin = 'real'
+
+    @field_validator('title', 'jd', mode='before')
+    @classmethod
+    def strip_reference(cls, value):
+        return value.strip() if isinstance(value, str) else value
+
+
 class Requirement(BaseModel):
-    skill: str
+    skill: str = Field(min_length=1, max_length=100)
     required_level: int = Field(ge=1, le=4)
     quote: str = Field(min_length=1)
     hard: bool = True
+
+    @field_validator('skill')
+    @classmethod
+    def clean_skill(cls, value):
+        if not value.strip(): raise ValueError('技能名称不能为空')
+        return value.strip()
 
 
 class JobProfile(BaseModel):
     requirements: list[Requirement]
     direction: str
     education: Literal["大专", "本科", "硕士", "博士"] | None = None
+
+    @field_validator('requirements')
+    @classmethod
+    def unique_requirements(cls, values):
+        names = [r.skill.casefold() for r in values]
+        if len(names) != len(set(names)): raise ValueError('同一技能只能填写一条要求')
+        return values
 
 
 class JobConfirmation(BaseModel):
@@ -46,7 +70,12 @@ class PreferenceInput(BaseModel):
     share_with_counterparty: bool = False
 
 
+class JobVisibility(BaseModel):
+    published: bool
+
+
 class MatchInput(BaseModel):
+    share_with_job: bool = False
     job_id: str
     resume_id: str
 
@@ -56,6 +85,7 @@ class FitInput(BaseModel):
     job_id: str | None = None
     jd: str | None = Field(default=None, min_length=20, max_length=30000)
     title: str = Field(default="我的目标岗位",min_length=2,max_length=100)
+    manual_profile: JobProfile | None = None
 
 
 class AssessmentInput(BaseModel):
@@ -71,14 +101,33 @@ class ReviewInput(BaseModel):
     reason: str = Field(min_length=2, max_length=1000)
 
 
+class BriefRequirement(BaseModel):
+    skill: str = Field(min_length=1, max_length=100)
+    type: Literal['硬性', '加分', '可培养']
+    priority: Literal['P0', 'P1', 'P2']
+
+
 class BriefInput(BaseModel):
     job_id: str
     answers: dict[str, str] = Field(default_factory=dict)
+    requirement_overrides: list[BriefRequirement] = Field(default_factory=list, max_length=100)
 
 
 class CompareInput(BaseModel):
     resume_id: str
-    job_texts: list[str] = Field(min_length=2, max_length=20)
+    job_texts: list[Annotated[str, Field(min_length=20, max_length=30000)]] = Field(default_factory=list, max_length=20)
+    job_ids: list[str] = Field(default_factory=list, max_length=20)
+
+    @model_validator(mode='after')
+    def one_source(self):
+        self.job_texts = [text.strip() for text in self.job_texts]
+        if bool(self.job_texts) == bool(self.job_ids) or self.job_texts and len(self.job_texts) < 2:
+            raise ValueError('请选择 1–20 个已有岗位，或填写 2–20 个岗位描述。')
+        if any(len(text) < 20 for text in self.job_texts):
+            raise ValueError('每个岗位描述至少需要 20 个有效字符。')
+        if len(set(self.job_ids)) != len(self.job_ids):
+            raise ValueError('岗位不能重复选择。')
+        return self
 
 
 class TierEvidence(BaseModel):

@@ -13,9 +13,38 @@ JOBS = [
 ]
 
 
+def seed_account(service, owner):
+    """Explicit private examples for an admin, without allocating other users' identities."""
+    import copy
+    from .service import TalentService
+    if service.settings.env == "prod":
+        from .errors import DomainError
+        raise DomainError("DEMO_DISABLED", "生产环境不装载合成示例", 403)
+    if service.db.list("job_profiles",owner=owner):
+        return
+    settings=copy.copy(service.settings);settings.llm_mode="demo"
+    local=TalentService(settings)
+    dims=local.config.get("preferences")
+    resumes=[local.create_resume(ResumeInput(name=p["name"],text=p["text"]),owner) for p in PEOPLE]
+    for item in JOBS:
+        job=local.create_job(JobInput(title=item["title"],jd=item["jd"]),owner)
+        job=local.confirm_job(job["id"],JobConfirmation(profile=job["profile"],expected_version=job["version"]),owner)
+        local.brief(BriefInput(job_id=job["id"],answers={"source":"业务需要"}),owner)
+        local.submit_preference(PreferenceInput(side="enterprise",job_id=job["id"],dimensions={d["id"]:v for d,v in zip(dims["dimensions"],item["prefs"])},ambience_text=item["ambience"],dimension_version=dims["version"],share_with_counterparty=True),owner)
+        local.batch(job["id"],owner)
+    local.assess(AssessmentInput(job_id=job["id"],resume_ids=[r["id"] for r in resumes]),owner)
+
+
 def seed(service):
     if service.settings.env == "prod" or service.db.list("job_profiles"):
         return
+    # Generate synthetic legacy snapshots through a private service instance.
+    # The HTTP service keeps its real enterprise verification gate at all times.
+    import copy
+    from .service import TalentService
+    settings=copy.copy(service.settings);settings.llm_mode="demo"
+    service=TalentService(settings)
+    service.enterprise_owner_verified=lambda actor: actor==ENT
     dims = service.config.get("preferences")
     people = []
     for person in PEOPLE:
@@ -29,13 +58,13 @@ def seed(service):
         for item in JOBS:
             j=service.create_job(JobInput(title=item["title"],jd=item["jd"]),ENT)
             j=service.confirm_job(j["id"],JobConfirmation(profile=j["profile"],expected_version=j["version"]),ENT)
+            j=service.db.update("job_profiles",j["id"],{"published":True})
             service.brief(BriefInput(job_id=j["id"],answers={"source":"业务需要"}),ENT)
             service.submit_preference(PreferenceInput(side="enterprise",job_id=j["id"],dimensions={d["id"]:v for d,v in zip(dims["dimensions"],item["prefs"])},ambience_text=item["ambience"],dimension_version=dims["version"],share_with_counterparty=True),ENT)
-            for r in people: service.run_match(MatchInput(job_id=j["id"],resume_id=r["id"]),ENT)
+            for r in people: service.run_match(MatchInput(job_id=j["id"],resume_id=r["id"],share_with_job=True),r["owner"])
             service.batch(j["id"],ENT)
         first=service.db.list("job_profiles",owner=ENT)[-1]
         reports=service.assess(AssessmentInput(job_id=first["id"],resume_ids=[r["id"] for r in service.db.list("resumes",owner=ENT)]),ENT)["reports"]
         # Human gate stays pending; synthetic demo reports are never auto-confirmed.
     finally:
         service.settings.llm_mode=previous
-

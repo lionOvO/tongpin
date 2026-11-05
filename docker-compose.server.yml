@@ -1,0 +1,75 @@
+# Dedicated server stack; does not change the local 8000/8501 development stack.
+name: tongpin
+services:
+  api:
+    image: tongpin-api:${RELEASE_TAG:-local}
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+      args:
+        WITH_VECTORS: "false"
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.org/simple}
+    env_file: .env
+    environment:
+      APP_ENV: prod
+      AUTO_SEED: "false"
+      LLM_MODE: live
+      LLM_DEFAULT_MODEL_ID: deepseek
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:?Configure DEEPSEEK_API_KEY in the server .env}
+      DATA_DIR: /srv/data
+      VECTOR_ENABLED: "false"
+    # Only this stack's web proxy can reach the API on the private network.
+    command: [uvicorn, app.main:app, --host, 0.0.0.0, --port, "8000", --workers, "1", --proxy-headers, "--forwarded-allow-ips=*"]
+    volumes:
+      - talent_data:/srv/data
+    networks:
+      - backend
+    cpus: ${API_CPUS:-1.0}
+    mem_limit: ${API_MEMORY:-1g}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=5)"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+    restart: unless-stopped
+  web:
+    image: tongpin-web:${RELEASE_TAG:-local}
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+      args:
+        NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmjs.org}
+    ports:
+      - "${WEB_BIND_ADDRESS:-127.0.0.1}:${WEB_PORT:-18082}:8501"
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      api: {condition: service_healthy}
+    cpus: ${WEB_CPUS:-0.5}
+    mem_limit: ${WEB_MEMORY:-192m}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: [CMD, wget, -q, --spider, "http://127.0.0.1:8501/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+    restart: unless-stopped
+networks:
+  frontend:
+  # The API requires outgoing access to DeepSeek and the SMS provider.
+  backend:
+volumes:
+  talent_data:
